@@ -62,7 +62,7 @@
             potentialDevices.push(dev);
         }
 
-        if (!device) {
+        if (!device || dev.id !== 'COM7') {
             tryNextDevice();
         }
     };
