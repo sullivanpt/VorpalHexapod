@@ -57,14 +57,13 @@
     // Extension API interactions
     var potentialDevices = [];
     ext._deviceConnected = function(dev) {
-        console.log("DEV CONNECTED:", dev);
-        if (dev.id === 'COM7') { // TODO: maybe some other data here?
+      console.log("DEV CONNECTED:", dev);
+      if (dev.id === 'COM7') { // TODO: maybe some other data here?
+        if (!device) {
             potentialDevices.push(dev);
-        }
-
-        if (!device || dev.id !== 'COM7') {
             tryNextDevice();
         }
+      }
     };
 
     var poller = null;
