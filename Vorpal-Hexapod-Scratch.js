@@ -108,7 +108,8 @@
 
     var deviceOpenedNotify = null;
 
-    function deviceOpenedCallback(dev) {
+    function deviceOpenedCallback (dev) {
+        console.log('deviceOpenedCallback', dev)
         if (!dev) {
             device = null;
             tryNextDevice();
