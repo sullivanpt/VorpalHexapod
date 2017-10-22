@@ -57,8 +57,10 @@
     // Extension API interactions
     var potentialDevices = [];
     ext._deviceConnected = function(dev) {
-	console.log("DEV CONNECTED:" + dev.id);
-        potentialDevices.push(dev);
+        console.log("DEV CONNECTED:", dev);
+        if (dev.id === 'COM7') { // TODO: maybe some other data here?
+            potentialDevices.push(dev);
+        }
 
         if (!device) {
             tryNextDevice();
@@ -174,7 +176,7 @@
         device = potentialDevices.shift();
         if (!device) return;
 
-        device.open({ stopBits: 0, bitRate: 9600, ctsFlowControl: 0 }, deviceOpenedCallback);
+        device.open({ stopBits: 0, bitRate: 38400, ctsFlowControl: 0 }, deviceOpenedCallback); // changed baud to BT
 
     	console.log("TRYING DEV: " + device.id);
 
@@ -219,7 +221,7 @@
 			    }
 			    break;
 		    case ST_COM:
-			    // Comment coming from the gamepad, 
+			    // Comment coming from the gamepad,
 			    // so flush everything up to a newline
 			    if (b == 10 || b == 13) { 	// newline ascii code is 10, CR is 13
 				    InputState = ST_START;
@@ -358,7 +360,7 @@
 
         var cmd = new Uint8Array(3);
 
-        cmd[0] = "W".charCodeAt();    
+        cmd[0] = "W".charCodeAt();
 
         // gait: ["normal", "high knees", "small steps", "scamper"],
         switch (ingait) {
@@ -790,7 +792,7 @@
 		// when the device actually completes opening we'll trigger
 		// the Wait block callback
 		deviceOpenedNotify = callback;
-		device.open({ stopBits: 0, bitRate: 9600, ctsFlowControl: 0 }, deviceOpenedCallback);
+		device.open({ stopBits: 0, bitRate:  38400, ctsFlowControl: 0 }, deviceOpenedCallback); // BT spped
 	} else {
 		tryNextDevice();
 	}
@@ -1098,10 +1100,10 @@
 	    case "Analog 6":
 		    return SensorA6;
 
-	    case "Analog 7": 
+	    case "Analog 7":
 		    return SensorA7;
 
-	    case "Ultrasonic distance": 
+	    case "Ultrasonic distance":
 		    return SensorDistance;
 	    }
     };
